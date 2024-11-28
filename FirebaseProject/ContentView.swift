@@ -4,10 +4,23 @@
 //
 //
 import SwiftUI
+import Firebase
+import FirebaseAuth
 struct ContentView: View {
     @State private var email = ""
     @State private var password = ""
+    @State private var userIsLoggedIn = false
     var body: some View {
+        
+        if  userIsLoggedIn {
+            ListView()
+        }
+        else{
+            
+        }
+    }
+    
+    var content:some View{
         ZStack{
             Color.black
             RoundedRectangle(cornerRadius: 30, style: .continuous).foregroundStyle(.linearGradient(colors: [.green, .yellow], startPoint: .topLeading, endPoint: .bottomTrailing)).frame(width: 1000, height: 400).rotationEffect(.degrees(35)).offset(y:-350)
@@ -25,19 +38,45 @@ struct ContentView: View {
                 
                 Rectangle().frame(width: 350, height: 1).foregroundColor(.white)
                 Button{
-                    
+                    //sign up
                 }label: {
                     Text("Sign Up").bold().frame(width: 200, height:40).background(
                         RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.linearGradient(colors:[.green, .blue],startPoint: .top, endPoint: .bottomTrailing))).foregroundColor(.white)
                 }
                 .padding(.top).offset(y:100)
                 Button {
-                    
+                    login()
                 }label: {
-                    Text("Already have an Account?").bold().foregroundColor(.white)
+                    Text("Already have an Account?Login").bold().foregroundColor(.white)
                 }.padding(.top).offset(y:100)
             }.frame(width: 350)
+                .onAppear{
+                    Auth.auth().addStateDidChangeListener{
+                        auth , user in
+                        if user != nil {
+                            userIsLoggedIn.toggle()
+                        }
+                    }
+                }
         }.ignoresSafeArea()
+
+    }
+    
+    func login(){
+        Auth.auth().signIn(withEmail: email, password: password){
+            result, error in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
+    }
+    func register(){
+        Auth.auth().createUser(withEmail: email, password: password){
+            result, error in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
     }
 }
 struct ContentView_Previews: PreviewProvider {
@@ -57,5 +96,4 @@ extension View{
             
         }
 }
-
 
