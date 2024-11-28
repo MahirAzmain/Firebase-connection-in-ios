@@ -17,6 +17,7 @@ This SwiftUI Firebase Project walks us through how to use Firebase Auth (Authent
 <img width="401" alt="Screenshot 2024-11-28 at 1 51 33 PM" src="https://github.com/user-attachments/assets/97782839-562c-43b3-aaa4-2a83c5b40ebe">
 
 
+
 **This Project was developed by:**
 
 1.Shayka Islam Shipra (2007110)
